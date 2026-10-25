@@ -7,8 +7,8 @@
 | Project title | E-commerce Order Tracking Dashboard |
 | Prepared by | Bernardo Xie He & Henry Zhou |
 | Course | 01:198:437:01 |
-| Date | October 24, 2026 |
-| Version | 1.2 |
+| Date | October 25, 2026 |
+| Version | 1.3 |
 | Requirements baseline | [FRD v1.7](FRD.md) |
 | Repository | https://github.com/annberjin/E-commerce-tracking-dashboard |
 
@@ -29,7 +29,7 @@ One web application and one MySQL database manage accounts, products, inventory,
 | Source and build | Git/GitHub, Bash, Python virtual environment | Versioned documents, ordered SQL build, and application dependencies. |
 | Operating environment | Linux or Windows with WSL | Local development and demonstration. |
 
-Record tested server/client versions and prerequisites in README; pin application dependencies. Configuration supplies database connection settings, application secret, and session/log directories. Keep secrets outside Git.
+Pin application dependencies. Configuration supplies database connection settings, application secret, and session/log directories. Keep secrets outside Git.
 
 Use `utf8mb4`, strict SQL mode including `STRICT_TRANS_TABLES` and `ONLY_FULL_GROUP_BY`, and UTC database connections. Use persistent database storage with `innodb_flush_log_at_trx_commit=1` and, when binary logging is enabled, `sync_binlog=1`. Business writes use explicit transactions; no business procedure performs DDL.
 
@@ -437,7 +437,7 @@ Use `build/`, `database/`, and `docs/`. The ordered `database/manifest.txt` crea
 
 `build/build_database.sh` validates tools, configuration, connectivity, the exact Git tag, and manifest entries before creating the target. Reject unsafe, missing, duplicate, or misordered entries; stop on script/validation failure. Record the resolved commit. Require explicit confirmation before replacing an existing database. Do not use `--force` or assume DDL can roll back the entire build.
 
-Seed the three roles and four statuses before fictional accounts/products/orders. A local setup command provisions the first administrator from a hidden prompt or environment-supplied password, storing only its hash. Keep default passwords out of Git. Document the command and fictional account identifiers in README; seed business workflows retain successful audits and a bootstrap context.
+Seed the three roles and four statuses before fictional accounts/products/orders. A local setup command provisions the first administrator from a hidden prompt or environment-supplied password, storing only its hash. Keep default passwords out of Git. Seed business workflows retain successful audits and a bootstrap context.
 
 Validate objects, keys/constraints, lookups, seed counts, required children, orphan checks, shipment/status agreement, and report results. Preserve execution order, timestamps, errors, and validation output in the build evidence.
 
@@ -454,7 +454,7 @@ All reports use the FRD's role rules. UTC date filters use `timestamp >= start_d
 
 The line aggregation occurs before any join to audit history, so multiple lines or events cannot inflate sales counts or values. The customer timeline selects only OrderHeader.StatusCode events and omits actor/reason fields. Order-reference and submission-reference lookups apply the same ownership filter.
 
-The validation query for missing required children uses `NOT EXISTS`, such as finding an OrderHeader with no OrderLine. This supplies a meaningful subquery demonstration alongside the reports' joins/aggregates, the stock update operations, and the procedure exception handlers.
+The validation query for missing required children uses `NOT EXISTS`, such as finding an OrderHeader with no OrderLine.
 
 ### 11.1 Performance and growth
 
@@ -590,4 +590,4 @@ Database and build checks have been executed; results are in `docs/evidence/data
 | C-01 through C-03 | README, docs, scripts, manifest and release tag | Section 3 and Section 10.3. | T-47, T-48; compare documented versions and schema/ERD. |
 | C-04, C-05 | Trigger, reports, indexes, architecture/API/wireframes | Sections 4, 8, 10 and 11. | T-23, T-32, T-50, T-51; inspect SQL feature and diagram coverage. |
 
-The final demonstration uses the same test IDs and saves its executed SQL/HTTP actions, query results, build logs, and performance plans under `docs/evidence/`. Record actual results after executing each test.
+The final demonstration uses the same test IDs and saves its executed SQL/HTTP actions, query results, build logs, and performance plans under `docs/evidence/`.
